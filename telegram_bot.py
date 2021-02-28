@@ -89,6 +89,7 @@ def append_history(message, event, telegram_id=0):
     """
         Доповнення події до таблиці подій 'history'
     """
+    global con, cur
     if telegram_id == 0:
         telegram_id = message.from_user.id
 
@@ -106,6 +107,12 @@ def append_history(message, event, telegram_id=0):
         logging.warning('This is error in the append_history()')
     else:
         con.commit()
+
+        cur.close()
+        con.close()
+
+        con = sqlite3.connect("TableApp/main.db")
+        cur = con.cursor()
 
 
 async def save_information(message, telegram_id=0):
