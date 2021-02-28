@@ -4,12 +4,15 @@ from django.views import generic
 
 from datetime import datetime, timedelta
 
+import os
 import sqlite3
 import logging
 # Create your views here.
 
 
 def get_settings(request):
+    print(os.path.abspath(__file__))
+    
     con = sqlite3.connect("main.db")
     cur = con.cursor()
 
