@@ -103,16 +103,7 @@ def append_history(telegram_id, event):
         logging.warning('This is error in the append_history()')
     else:
         con.commit()
-
-    cur.execute(f"""select * from {"history"}""")
-    data = cur.fetchall()
-
-
-append_history(440973597, "Get name")
-
-cur.close()
-con.close()
-
+        
 
 async def save_information(message, telegram_id=0):
     """
