@@ -12,11 +12,16 @@ import logging
 
 def get_settings(request):
     print(os.path.abspath(__file__))
-    
+
     con = sqlite3.connect("main.db")
     cur = con.cursor()
 
     table_name = "history"
+
+    cur.execute(f"""select * from {"history"}""")
+    data = cur.fetchall()
+    print(data)
+    
     try:
         cur.execute(f"select * from {table_name}")
     except:
