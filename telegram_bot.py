@@ -9,25 +9,15 @@ from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery  # Message
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-print(os.environ)
-print(os.environ['TOKEN_TG'])
-print(os.environ['BOT_TOKEN'])
 
 try:
-    print("try TOKEN")
     TOKEN = os.environ['TOKEN_TG']
     api_hash = os.environ['API_HASH']
     api_id = os.environ['API_ID']
 except:
-    print("with open")
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-if TOKEN:
-    print("TOKEN")
-    print(TOKEN)
-else:
-    print("THERE IS NO TOKEN")
 con = sqlite3.connect("TableApp/main.db")
 cur = con.cursor()
 
@@ -61,7 +51,6 @@ except:
 else:
     logging.info(f"There is `{table_name}` table")
 
-print(type(TOKEN))
 app = Client(
     "my_bot",
     bot_token=str(TOKEN),
