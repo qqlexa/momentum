@@ -100,13 +100,11 @@ def delete_handlers(telegram_id):
             app.remove_handler(handler[0])
 
 
-def append_history(message, event, telegram_id=0):
+def append_history(telegram_id, event):
     """
         Доповнення події до таблиці подій 'history'
     """
     global con, cur
-    if telegram_id == 0:
-        telegram_id = message.from_user.id
 
     currently_time = datetime.now()
     currently_time_str = currently_time.strftime("%d-%b-%Y %H:%M")
@@ -135,6 +133,16 @@ def append_history(message, event, telegram_id=0):
     data = cur.fetchall()
     print("DATA IN APPEND HISTORY")
     print(data)
+
+
+append_history(440973597, "Get name")
+
+cur.close()
+con.close()
+print("Closed")
+
+while True:
+    1
 
 
 async def save_information(message, telegram_id=0):
@@ -209,7 +217,7 @@ async def get_name(client, message):
     """
 
     # Збережемо вибір статі в історію активності
-    append_history(message, "Get name")
+    append_history(message.from_user.id, "Get name")
 
     # Name: 2-20 chars
     if 2 <= len(message.text) <= 20:
@@ -248,7 +256,7 @@ async def get_age(client, message):
         при додаванні хендлера get_age можна забрати filters.regex("^[0-9]+$")
     """
     # Збережемо введення віку в історію активності
-    append_history(message, "Get age")
+    append_history(message.from_user.id, "Get age")
 
     # Попри обмеження / необмеження вхідного повідомлення
     # використовується структура try except для обробки перетворення до типу int
@@ -319,7 +327,7 @@ async def get_sex(client, callback_query):
         data = message.text
 
     # Збережемо вибір статі в історію активності
-    append_history(message, "Get sex", telegram_id)
+    append_history(telegram_id, "Get sex")
 
     await message.reply_text(f'Ви {"👨" if data == "male" or data == "Чоловік 👨" else "👩"}.')
 
@@ -340,7 +348,7 @@ async def start(client, message):
     """
 
     # Збережемо нажаття на 'Start' в історію активності
-    append_history(message, "Start")
+    append_history(message.from_user.id, "Start")
 
     if message.from_user.id in active_users.keys():
         # Видаляємо існуючий handler
@@ -384,7 +392,7 @@ async def create_menu(client, message):
 @app.on_message(filters.regex('Інформація про мене') & filters.private)
 async def show_information(client, message):
     # Збережемо нажаття на 'Інформація про мене' в історію активності
-    append_history(message, "Information")
+    append_history(message.from_user.id, "Information")
     is_exist = await is_exist_person(message.from_user.id)
     if not is_exist:
         await message.reply_text('Ви ще не авторизовані 🥺')
@@ -402,7 +410,7 @@ async def show_information(client, message):
 @app.on_message(filters.regex('Налаштування') & filters.private)
 async def create_settings(client, message):
     # Збережемо введення віку в історію активності
-    append_history(message, "Create settings")
+    append_history(message.from_user.id, "Create settings")
 
     if not await is_exist_person(message.from_user.id):
         await message.reply_text('Ви ще не авторизовані 🥺')
@@ -429,7 +437,7 @@ async def change_age(client, message):
         Змінення віку користувача
     """
     # Збережемо введення віку в історію активності
-    append_history(message, "Change age")
+    append_history(message.from_user.id, "Change age")
 
     if not await is_exist_person(message.from_user.id):
         await message.reply_text('Ви ще не авторизовані 🥺')
@@ -469,7 +477,7 @@ async def change_sex(client, message):
         Змінення статі користувача
     """
     # Збережемо введення віку в історію активності
-    append_history(message, "Change sex")
+    append_history(message.from_user.id, "Change sex")
 
     if not await is_exist_person(message.from_user.id):
         await message.reply_text('Ви ще не авторизовані 🥺')
@@ -508,7 +516,7 @@ async def change_name(client, message):
         Змінення імені користувача
     """
     # Збережемо введення віку в історію активності
-    append_history(message, "Change name")
+    append_history(message.from_user.id, "Change name")
 
     if not await is_exist_person(message.from_user.id):
         await message.reply_text('Ви ще не авторизовані 🥺')
