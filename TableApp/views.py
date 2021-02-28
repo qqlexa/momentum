@@ -18,13 +18,11 @@ def get_settings(request):
 
     table_name = "history"
 
-    cur.execute(f"""select * from {"history"}""")
-    data = cur.fetchall()
-    print(data)
-    
     try:
+        print("Trying")
         cur.execute(f"select * from {table_name}")
     except:
+        print("Creating")
         # if does not exist
         logging.info(f"Created new `{table_name}` table")
         cur.execute(f"""CREATE TABLE {table_name} (
@@ -34,6 +32,10 @@ def get_settings(request):
         );""")
     else:
         logging.info(f"There is `{table_name}` table")
+
+    cur.execute(f"""select * from {"history"}""")
+    data = cur.fetchall()
+    print(data)
 
     notes = []
     for i in range(24):
