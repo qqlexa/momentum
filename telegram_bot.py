@@ -9,6 +9,7 @@ from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery  # Message
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
+print(os.path.abspath(__file__))
 
 try:
     TOKEN = os.environ['TOKEN_TG']
@@ -18,7 +19,7 @@ except:
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-con = sqlite3.connect("TableApp/main.db")
+con = sqlite3.connect("main.db")
 cur = con.cursor()
 
 table_name = "info"
@@ -91,16 +92,15 @@ def append_history(message, event, telegram_id=0):
         telegram_id = message.from_user.id
 
     currently_time = datetime.now()
-
-    # date_time_str = '2018-06-29 08:15:27.243860'
     currently_time_str = currently_time.strftime("%d-%b-%Y %H:%M")
-    # date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
     try:
-        cur.execute(f"""insert into {"history"} values (
+        request = f"""insert into {"history"} values (
                     {telegram_id}, 
                     '{event}', 
                     '{currently_time_str}')
-                    """)
+                    """
+        print(request)
+        cur.execute(request)
     except:
         logging.warning('This is error in the append_history()')
     else:
@@ -183,7 +183,7 @@ async def get_name(client, message):
 
     # Name: 2-20 chars
     if 2 <= len(message.text) <= 20:
-        await message.reply_text(f'Окей, {message.text}!')
+        await message.reply_text(f'Окей, {message.text}.')
         # Зберігаємо попереднє значення імені користувача
         previous_name = active_users[message.from_user.id]["name"]
 
@@ -225,14 +225,14 @@ async def get_age(client, message):
     try:
         age = int(message.text)
     except:
-        await message.reply_text(f'Спробуйте знову, {message.text}!')
+        await message.reply_text(f'Спробуйте знову, {message.text}.')
     else:
         # Зберігаємо попереднє значення віку користувача
         previous_age = active_users[message.from_user.id]["age"]
         # Записуємо вік в словник під ключем телеграм айді користувача
         active_users[message.from_user.id]["age"] = age
 
-        await message.reply_text(f'Окей, Вам {message.text}!')
+        await message.reply_text(f'Окей, Вам {message.text}.')
 
         # Видаляємо попередній handler на отримання віку
         delete_handlers(message.from_user.id)
@@ -291,7 +291,7 @@ async def get_sex(client, callback_query):
     # Збережемо вибір статі в історію активності
     append_history(message, "Get sex", telegram_id)
 
-    await message.reply_text(f'Ви {"👨" if data == "male" or data == "Чоловік 👨" else "👩"}!')
+    await message.reply_text(f'Ви {"👨" if data == "male" or data == "Чоловік 👨" else "👩"}.')
 
     # Записуємо стать в словник під ключем телеграм айді користувача
     active_users[telegram_id]["sex"] = "male" if data == "male" or data == "Чоловік 👨" else "female"
@@ -340,7 +340,7 @@ async def create_menu(client, message):
         Створюємо ReplyKeyboardMarkup з кнопками 'Інформація про мене' та 'Налаштування'
     """
 
-    await message.reply_text('Виберіть пункт з головного меню!',
+    await message.reply_text('Виберіть пункт з головного меню.',
                              reply_markup=ReplyKeyboardMarkup(
                                  [
                                      ["Інформація про мене"],  # Перший рядок
@@ -378,7 +378,7 @@ async def create_settings(client, message):
         await message.reply_text('Ви ще не авторизовані 🥺')
         return
 
-    await message.reply_text('Налаштування!',
+    await message.reply_text('Налаштування.',
                              reply_markup=ReplyKeyboardMarkup(
                                  [
                                      ["Змінити вік"],  # Перший рядок
@@ -411,7 +411,7 @@ async def change_age(client, message):
                                           "age": person[0][2],
                                           "sex": person[0][3]
                                           }
-    await message.reply_text('Введіть нове значення, або поверніться назад!',
+    await message.reply_text('Введіть нове значення, або поверніться назад.',
                              reply_markup=ReplyKeyboardMarkup(
                                  [
                                      ["Назад"],  # Перший рядок
@@ -451,7 +451,7 @@ async def change_sex(client, message):
                                           "age": person[0][2],
                                           "sex": person[0][3]
                                           }
-    await message.reply_text("Виберіть Вашу стать, або перейдіть назад!",
+    await message.reply_text("Виберіть Вашу стать, або перейдіть назад.",
                              reply_markup=ReplyKeyboardMarkup(
                                  [
                                      ["Чоловік 👨", "Жінка 👩"],  # Перший рядок
@@ -490,7 +490,7 @@ async def change_name(client, message):
                                           "age": person[0][2],
                                           "sex": person[0][3]
                                           }
-    await message.reply_text('Введіть нове значення, або поверніться назад!',
+    await message.reply_text('Введіть нове значення, або поверніться назад.',
                              reply_markup=ReplyKeyboardMarkup(
                                  [
                                      ["Назад"],  # Перший рядок
