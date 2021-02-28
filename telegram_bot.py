@@ -64,7 +64,6 @@ con.close()
 print("Closed")
 
 
-
 print("Opening")
 con = sqlite3.connect("TableApp/main.db")
 cur = con.cursor()
@@ -126,7 +125,9 @@ def append_history(message, event, telegram_id=0):
 
         cur.close()
         con.close()
+        print("Closed")
 
+        print("Opening")
         con = sqlite3.connect("TableApp/main.db")
         cur = con.cursor()
 
