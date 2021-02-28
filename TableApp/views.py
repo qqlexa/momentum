@@ -11,19 +11,14 @@ import logging
 
 
 def get_settings(request):
-    print(os.listdir(path="."))
-    print(os.path.abspath(__file__))
-
-    con = sqlite3.connect("main.db")
+    con = sqlite3.connect("db.sqlite3")
     cur = con.cursor()
 
     table_name = "history"
 
     try:
-        print("Trying")
         cur.execute(f"select * from {table_name}")
     except:
-        print("Creating")
         # if does not exist
         logging.info(f"Created new `{table_name}` table")
         cur.execute(f"""CREATE TABLE {table_name} (
@@ -36,13 +31,10 @@ def get_settings(request):
 
     cur.execute(f"""select * from {"history"}""")
     data = cur.fetchall()
-    print("DATA FROM VIEWS")
-    print(data)
 
     notes = []
     for i in range(24):
         try:
-            print(f"HEERE #{i}")
             from_time = datetime.now() - timedelta(hours=i)
 
             # date_time_str = '2018-06-29 08:15:27.243860'
