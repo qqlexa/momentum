@@ -103,7 +103,7 @@ def append_history(telegram_id, event):
         logging.warning('This is error in the append_history()')
     else:
         con.commit()
-        
+
 
 async def save_information(message, telegram_id=0):
     """
@@ -310,10 +310,10 @@ async def start(client, message):
     # Збережемо нажаття на 'Start' в історію активності
     append_history(message.from_user.id, "Start")
 
-    if message.from_user.id in active_users.keys():
-        # Видаляємо існуючий handler
-        delete_handlers(message.from_user.id)
+    # Видаляємо існуючий handler
+    delete_handlers(message.from_user.id)
 
+    if message.from_user.id in active_users.keys():
         del active_users[message.from_user.id]
 
     await message.reply_text("Введіть Ваше ім'я")
