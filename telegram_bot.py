@@ -21,8 +21,8 @@ except:
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-print("TG: SQL TableApp/main.db")
-con = sqlite3.connect("TableApp/main.db")
+print("TG: SQL main.db")
+con = sqlite3.connect("main.db")
 cur = con.cursor()
 
 table_name = "info"
@@ -67,7 +67,7 @@ print("Closed")
 
 
 print("Opening")
-con = sqlite3.connect("TableApp/main.db")
+con = sqlite3.connect("main.db")
 cur = con.cursor()
 
 app = Client(
@@ -128,7 +128,7 @@ def append_history(telegram_id, event):
         print("Closed")
 
         print("Opening")
-        con = sqlite3.connect("TableApp/main.db")
+        con = sqlite3.connect("main.db")
         cur = con.cursor()
 
     cur.execute(f"""select * from {"history"}""")
