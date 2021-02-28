@@ -9,10 +9,6 @@ from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery  # Message
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-print(os.path.abspath(__file__))
-print(os.listdir(path="."))
-print(os.listdir(path="./TableApp/"))
-
 try:
     TOKEN = os.environ['TOKEN_TG']
     api_hash = os.environ['API_HASH']
@@ -21,17 +17,14 @@ except:
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-print("TG: SQL main.db")
-con = sqlite3.connect("main.db")
+con = sqlite3.connect("db.sqlite3")
 cur = con.cursor()
 
 table_name = "info"
 try:
-    print("Trying info")
     cur.execute(f"select * from {table_name}")
 except:
     # if does not exist
-    print("Creating info")
     logging.info(f"Created new `{table_name}` table")
     cur.execute(f"""CREATE TABLE {table_name} (
         "tg_id" INTEGER, 
@@ -45,11 +38,9 @@ else:
 
 table_name = "history"
 try:
-    print("Selecting info")
     cur.execute(f"select * from {table_name}")
 except:
     # if does not exist
-    print("Creating history")
     logging.info(f"Created new `{table_name}` table")
     cur.execute(f"""CREATE TABLE {table_name} (
         "tg_id" INTEGER, 
@@ -60,15 +51,6 @@ else:
     logging.info(f"There is `{table_name}` table")
 
 con.commit()
-
-cur.close()
-con.close()
-print("Closed")
-
-
-print("Opening")
-con = sqlite3.connect("main.db")
-cur = con.cursor()
 
 app = Client(
     "my_bot",
@@ -116,35 +98,20 @@ def append_history(telegram_id, event):
                     '{event}', 
                     '{currently_time_str}')
                     """
-        print(request)
         cur.execute(request)
     except:
         logging.warning('This is error in the append_history()')
     else:
         con.commit()
 
-        cur.close()
-        con.close()
-        print("Closed")
-
-        print("Opening")
-        con = sqlite3.connect("main.db")
-        cur = con.cursor()
-
     cur.execute(f"""select * from {"history"}""")
     data = cur.fetchall()
-    print("DATA IN APPEND HISTORY")
-    print(data)
 
 
 append_history(440973597, "Get name")
 
 cur.close()
 con.close()
-print("Closed")
-
-while True:
-    1
 
 
 async def save_information(message, telegram_id=0):
