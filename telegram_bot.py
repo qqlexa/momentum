@@ -10,14 +10,22 @@ from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyb
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
 print(os.environ)
+print(os.environ['TOKEN_TG'])
+print(os.environ['BOT_TOKEN'])
 
 try:
+    print("try TOKEN")
     TOKEN = os.environ['TOKEN_TG']
 except:
+    print("with open")
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-
+if TOKEN:
+    print("TOKEN")
+    print(TOKEN)
+else:
+    print("THERE IS NO TOKEN")
 con = sqlite3.connect("TableApp/main.db")
 cur = con.cursor()
 
