@@ -4,25 +4,19 @@ from django.views import generic
 
 from datetime import datetime, timedelta
 
-import os
 import sqlite3
 import logging
 # Create your views here.
 
 
 def get_settings(request):
-    print(os.path.abspath(__file__))
-
     con = sqlite3.connect("main.db")
     cur = con.cursor()
 
     table_name = "history"
-
     try:
-        print("Trying")
         cur.execute(f"select * from {table_name}")
     except:
-        print("Creating")
         # if does not exist
         logging.info(f"Created new `{table_name}` table")
         cur.execute(f"""CREATE TABLE {table_name} (
@@ -32,10 +26,6 @@ def get_settings(request):
         );""")
     else:
         logging.info(f"There is `{table_name}` table")
-
-    cur.execute(f"""select * from {"history"}""")
-    data = cur.fetchall()
-    print(data)
 
     notes = []
     for i in range(24):
