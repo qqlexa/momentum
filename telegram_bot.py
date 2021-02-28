@@ -19,7 +19,8 @@ except:
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
 
-con = sqlite3.connect("main.db")
+print("TG: SQL TableApp/main.db")
+con = sqlite3.connect("TableApp/main.db")
 cur = con.cursor()
 
 table_name = "info"
