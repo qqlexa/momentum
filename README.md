@@ -1,4 +1,4 @@
-# Pyroku
-A Pyrogram bot, which can easily be deployed to Heroku.
+# momentum
+<a href='https://herokuqq.herokuapp.com'>https://herokuqq.herokuapp.com/</a>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+<a href='http://t.me/MomentumQQBOT'>http://t.me/MomentumQQBOT</a>
