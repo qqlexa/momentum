@@ -16,6 +16,8 @@ print(os.environ['BOT_TOKEN'])
 try:
     print("try TOKEN")
     TOKEN = os.environ['TOKEN_TG']
+    api_hash = os.environ['API_HASH']
+    api_id = os.environ['API_ID']
 except:
     print("with open")
     with open("TOKEN_TG") as f:
@@ -59,9 +61,12 @@ except:
 else:
     logging.info(f"There is `{table_name}` table")
 
+print(type(TOKEN))
 app = Client(
     "my_bot",
-    bot_token=TOKEN
+    bot_token=str(TOKEN),
+    api_hash=str(api_hash),
+    api_id=str(api_id)
 )
 
 active_users = {}
