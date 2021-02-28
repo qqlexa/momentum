@@ -10,6 +10,8 @@ from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyb
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
 print(os.path.abspath(__file__))
+print(os.listdir(path="."))
+print(os.listdir(path="./TableApp/"))
 
 try:
     TOKEN = os.environ['TOKEN_TG']
