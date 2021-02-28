@@ -9,8 +9,10 @@ from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery  # Message
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
+print(os.environ)
+
 try:
-    TOKEN = os.environ['BOT_TOKEN']
+    TOKEN = os.environ['TOKEN_TG']
 except:
     with open("TOKEN_TG") as f:
         TOKEN = f.read()
