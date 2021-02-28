@@ -53,6 +53,14 @@ except:
 else:
     logging.info(f"There is `{table_name}` table")
 
+con.commit()
+
+cur.close()
+con.close()
+
+con = sqlite3.connect("TableApp/main.db")
+cur = con.cursor()
+
 app = Client(
     "my_bot",
     bot_token=str(TOKEN),
