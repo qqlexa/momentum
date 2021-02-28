@@ -11,6 +11,7 @@ import logging
 
 
 def get_settings(request):
+    print(os.listdir(path="."))
     print(os.path.abspath(__file__))
 
     con = sqlite3.connect("main.db")
